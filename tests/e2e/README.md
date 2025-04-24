@@ -59,9 +59,10 @@ compatibility runs, and pre‑release validation of new CTK builds.
 | Variable | Required | Example | Description |
 |----------|----------|---------|-------------|
 | `INSTALL_CTK` | ✖ | `true` | When `true` the test installs CTK on the remote host before running the image. When `false` it assumes CTK is already present. |
-| `TOOLKIT_IMAGE` | ✔ | `nvcr.io/nvidia/cuda:12.4.0-runtime-ubi9` | Image that will be pulled & executed. |
-| `SSH_KEY` | ✔ | `/home/ci/.ssh/id_rsa` | Private key used for authentication. |
-| `SSH_USER` | ✔ | `ubuntu` | Username on the remote host. |
+| `E2E_IMAGE_REPO` | ✔ | `ghcr.io/nvidia/container-toolkit` | Container Toolkit Image  |
+| `E2E_IMAGE_TAG` | ✔ | `latest` | Image tag |
+| `E2E_SSH_KEY` | ✔ | `/home/ci/.ssh/id_rsa` | Private key used for authentication. |
+| `E2E_SSH_USER` | ✔ | `ubuntu` | Username on the remote host. |
 | `REMOTE_HOST` | ✔ | `gpurunner01.corp.local` | Hostname or IP address of the target node. |
 | `REMOTE_PORT` | ✔ | `22` | SSH port of the target node. |
 

@@ -100,7 +100,7 @@ func getTestEnv() {
 	_, thisFile, _, _ := runtime.Caller(0)
 	packagePath = filepath.Dir(thisFile)
 
-	installCTK = getBoolEnvVar("INSTALL_CTK", false)
+	installCTK = getBoolEnvVar("E2E_INSTALL_CTK", false)
 
 	ImageRepo = os.Getenv("E2E_IMAGE_REPO")
 	Expect(ImageRepo).NotTo(BeEmpty(), "E2E_IMAGE_REPO environment variable must be set")
@@ -108,17 +108,16 @@ func getTestEnv() {
 	ImageTag = os.Getenv("E2E_IMAGE_TAG")
 	Expect(ImageTag).NotTo(BeEmpty(), "E2E_IMAGE_TAG environment variable must be set")
 
-	sshKey = os.Getenv("SSH_KEY")
-	Expect(sshKey).NotTo(BeEmpty(), "SSH_KEY environment variable must be set")
+	sshKey = os.Getenv("E2E_SSH_KEY")
+	Expect(sshKey).NotTo(BeEmpty(), "E2E_SSH_KEY environment variable must be set")
 
-	sshUser = os.Getenv("SSH_USER")
+	sshUser = os.Getenv("E2E_SSH_USER")
 	Expect(sshUser).NotTo(BeEmpty(), "SSH_USER environment variable must be set")
 
-	host = os.Getenv("REMOTE_HOST")
+	host = os.Getenv("E2E_SSH_HOST")
 	Expect(host).NotTo(BeEmpty(), "REMOTE_HOST environment variable must be set")
 
-	sshPort = os.Getenv("REMOTE_PORT")
-	Expect(sshPort).NotTo(BeEmpty(), "REMOTE_PORT environment variable must be set")
+	sshPort = getIntEnvVar("E2E_SSH_PORT", 22)
 
 	// Get current working directory
 	cwd, err = os.Getwd()
@@ -136,4 +135,17 @@ func getBoolEnvVar(key string, defaultValue bool) bool {
 		return defaultValue
 	}
 	return boolValue
+}
+
+// getIntEnvVar returns the integer value of the environment variable or the default value if not set.
+func getIntEnvVar(key string, defaultValue int) string {
+	value := os.Getenv(key)
+	if value == "" {
+		return strconv.Itoa(defaultValue)
+	}
+	intValue, err := strconv.Atoi(value)
+	if err != nil {
+		return strconv.Itoa(defaultValue)
+	}
+	return strconv.Itoa(intValue)
 }
